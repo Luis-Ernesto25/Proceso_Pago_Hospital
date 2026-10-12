@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model ausencia {
+  id_em            Int
+  fecha_inicio_au  DateTime      @db.Date
+  fecha_fin_au     DateTime      @db.Date
+  dias_au          Int
+  id_tipo_ausencia String        @db.VarChar
+  empleado         empleado      @relation(fields: [id_em], references: [id_em], onDelete: NoAction, onUpdate: NoAction, map: "id_em")
+  tipo_ausencia    tipo_ausencia @relation(fields: [id_tipo_ausencia], references: [id_tipo_ausencia], onDelete: NoAction, onUpdate: NoAction, map: "id_tipo_ausencia")
+
+  @@id([id_em, fecha_inicio_au], map: "ausenciaPkey")
+}
+
+model bono {
+  id_bo            String          @id @db.VarChar
+  monto_mensual_bo Decimal         @db.Decimal(6, 2)
+  empleado_bono    empleado_bono[]
+}
+
+model credenciales {
+  id_credencial Int      @id @default(autoincrement())
+  usuario       String   @db.VarChar(50)
+  contrasena    String   @db.VarChar
+  rol           tipo_rol
+}
+
+model dias_feriados {
+  fecha_dia DateTime @id(map: "Dias_Feriados_pkey") @db.Date
+}
+
+model empleado {
+  id_em              Int                  @id
+  carnet_em          String               @db.VarChar(11)
+  nombre_em          String               @db.VarChar
+  apellido1_em       String               @db.VarChar
+  apellido2_em       String               @db.VarChar
+  nivel_ed_em        String?              @db.VarChar
+  telefono_em        String?              @db.VarChar
+  direccion_em       String?              @db.VarChar
+  ausencia           ausencia[]
+  empleado_bono      empleado_bono[]
+  empleado_horas     empleado_horas[]
+  empleado_ocupacion empleado_ocupacion[]
+  guardia            guardia[]
+  tarjeta_pago       tarjeta_pago[]
+}
+
+model empleado_bono {
+  id_em    Int
+  id_bo    String   @db.VarChar
+  bono     bono     @relation(fields: [id_bo], references: [id_bo], onDelete: NoAction, onUpdate: NoAction, map: "id_bo")
+  empleado empleado @relation(fields: [id_em], references: [id_em], onDelete: NoAction, onUpdate: NoAction, map: "id_em")
+
+  @@id([id_em, id_bo], map: "Empleado_Bono_pkey")
+}
+
+model empleado_horas {
+  id_em             Int
+  fecha_inicio_eh   String   @db.VarChar
+  fecha_fin_eh      String   @db.VarChar
+  horas_ausencia_eh Int
+  horas_trabajo_eh  Int
+  horas_extras_eh   Int
+  horas_guardia_eh  Int
+  horas_feriadas_eh Int
+  empleado          empleado @relation(fields: [id_em], references: [id_em], onDelete: NoAction, onUpdate: NoAction, map: "id_em")
+
+  @@id([id_em, fecha_inicio_eh, fecha_fin_eh], map: "Empleado_Horas_pkey")
+}
+
+model empleado_ocupacion {
+  id_em     Int
+  id_oc     String    @db.VarChar
+  empleado  empleado  @relation(fields: [id_em], references: [id_em], onDelete: NoAction, onUpdate: NoAction, map: "id_em")
+  ocupacion ocupacion @relation(fields: [id_oc], references: [id_oc], onDelete: NoAction, onUpdate: NoAction, map: "id_oc")
+
+  @@id([id_em, id_oc])
+}
+
+model guardia {
+  id_em            Int
+  fecha_gu         DateTime @db.Date
+  costo_gu         Decimal? @db.Decimal(5, 0)
+  dia_semana_gu    String?  @db.VarChar
+  horas_guardia_gu Int?
+  empleado         empleado @relation(fields: [id_em], references: [id_em], onDelete: NoAction, onUpdate: NoAction, map: "id_em")
+
+  @@id([fecha_gu, id_em], map: "Guardia_pkey")
+}
+
+model ocupacion {
+  id_oc                 String               @id(map: "Ocupacion_pkey") @db.VarChar
+  salario_mes_oc        Decimal              @db.Decimal(7, 2)
+  costo_hora_guardia_oc Decimal              @db.Decimal(5, 2)
+  tipo_ocupacion        tipo_ocupacion
+  cant_horas_jornada    Int
+  cant_horas_guardia_oc Int
+  empleado_ocupacion    empleado_ocupacion[]
+}
+
+model tarjeta_pago {
+  id_em            Int
+  fecha_entrada_ta DateTime @db.Date
+  fecha_salida_ta  DateTime @db.Date
+  hora_entrada_ta  DateTime @db.Time(6)
+  hora_salida_ta   DateTime @db.Time(6)
+  empleado         empleado @relation(fields: [id_em], references: [id_em], onDelete: NoAction, onUpdate: NoAction, map: "id_em")
+
+  @@id([id_em, fecha_entrada_ta], map: "Tarjeta_Pago_pkey")
+}
+
+model tipo_ausencia {
+  id_tipo_ausencia  String     @id(map: "Tipo_Ausencia_pkey") @db.VarChar
+  se_paga_sueldo_ti Boolean
+  ausencia          ausencia[]
+}
+
+enum tipo_ocupacion {
+  Propia
+  No_Propia @map("No Propia")
+}
+
+enum tipo_rol {
+  Tecnico_RH @map("Tecnico RH")
+  Economista
+  Admin
+  Contador
+  SuperAdmin
+}
