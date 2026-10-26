@@ -9,13 +9,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
+/*import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";*/
 import { useState } from "react";
 import DialogoEditar from "./DialogoEditar";
 import { EmpleadoOcupacionEditar } from "@/entidades/Empleado";
@@ -119,32 +119,7 @@ export function TablaDatos({
                     {valorCelda}
                   </TableCell>
                 );
-              })}{/*
-              <TableCell className="text-right px-2 py-0">
-                <DropdownMenu>
-                  <DropdownMenuTrigger
-                    render={
-                      <Button variant="ghost" size="icon" className="size-6">
-                        <MoreHorizontalIcon className="size-4" />
-                        <span className="sr-only">Open menu</span>
-                      </Button>
-                    }
-                  />
-                  <DropdownMenuContent align="end" className="bg-white">
-                    <DropdownMenuItem onClick={() => handleEditar(fila, idx)}>
-                      Editar
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                      variant="destructive"
-                      className="bg-red-400"
-                      onClick={() => handleEliminarFila(fila, idx)}
-                    >
-                      Eliminar
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>*/}
+              })}
             </TableRow>
           ))}
         </TableBody>

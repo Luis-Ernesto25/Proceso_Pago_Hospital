@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import {
-  SidebarProvider,
+  SidebarProvider as ShadSidebarProvider,
   SidebarTrigger,
   SidebarInset,
 } from "@/components/ui/sidebar";
@@ -24,7 +24,7 @@ export default function SideBarProvider({
   const [tituloSecundario, setTituloSecundario] = useState("");
 
   return (
-    <SidebarProvider defaultOpen={true}>
+    <ShadSidebarProvider defaultOpen={true}>
       <AppSidebar
         navItems={navItems}
         label={label}
@@ -32,7 +32,7 @@ export default function SideBarProvider({
       />
       <SidebarInset>
         <header className="flex items-center gap-2 border-b pb-2 mb-4 p-4">
-          <div className="flex items-center gap-10">
+          <div className="flex items-center gap-10 w-full">
             <SidebarTrigger />
             <h1 className="text-xl font-semibold">{tituloApp}</h1>
             {tituloSecundario && (
@@ -44,6 +44,6 @@ export default function SideBarProvider({
         </header>
         <div className="p-4">{children}</div>
       </SidebarInset>
-    </SidebarProvider>
+    </ShadSidebarProvider>
   );
 }

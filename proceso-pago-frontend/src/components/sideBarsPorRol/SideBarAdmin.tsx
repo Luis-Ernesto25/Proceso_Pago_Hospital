@@ -24,7 +24,7 @@ export default function SideBarAdmin({
     <SideBarProvider
       navItems={navItems}
       label="Panel Admin"
-      tituloApp="Mi App · Admin"
+      tituloApp="Pago · Admin"
     >
       {children}
     </SideBarProvider>

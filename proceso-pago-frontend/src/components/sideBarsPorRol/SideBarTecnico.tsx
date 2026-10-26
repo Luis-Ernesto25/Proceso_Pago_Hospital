@@ -108,7 +108,7 @@ export default function SideBarTecnico_RH({
     <SideBarProvider
       navItems={navItems}
       label="Panel Tecnico RR_HH"
-      tituloApp="Mi App · Tecnico RR_HH"
+      tituloApp="Pago · Tecnico RR_HH"
     >
       {children}
     </SideBarProvider>
