@@ -12,8 +12,9 @@ import { ConfigModule } from '@nestjs/config';
 import { AusenciaModule } from './ausencia/ausencia.module';
 import { TipoAusenciaModule } from './tipo-ausencia/tipo-ausencia.module';
 import { ReporteModule } from './reporte/reporte.module';
+import { PdfModule } from './pdf/pdf.module';
 @Module({
-  imports: [ ConfigModule.forRoot({ isGlobal: true }),PrismaModule, BonoModule, OcupacionModule, EmpleadoModule, EmpleadoOcupacionModule, EmpleadoBonoModule, DiaFeriadoModule, TarjetaPagoModule, AuthModule, TipoAusenciaModule, AusenciaModule, ReporteModule],
+  imports: [ ConfigModule.forRoot({ isGlobal: true }),PdfModule, PrismaModule, BonoModule, OcupacionModule, EmpleadoModule, EmpleadoOcupacionModule, EmpleadoBonoModule, DiaFeriadoModule, TarjetaPagoModule, AuthModule, TipoAusenciaModule, AusenciaModule, ReporteModule],
   controllers: [],
   providers: [],
 })
